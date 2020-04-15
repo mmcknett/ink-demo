@@ -1,0 +1,56 @@
+{
+  "name": "ink-demo",
+  "version": "0.0.0",
+  "license": "MIT",
+  "bin": "cli.js",
+  "engines": {
+    "node": ">=8"
+  },
+  "scripts": {
+    "test": "npm run lint && jest",
+    "test:watch": "jest --watch",
+    "lint": "eslint --fix ."
+  },
+  "files": [
+    "cli.js",
+    "ui.js"
+  ],
+  "dependencies": {
+    "import-jsx": "^4.0.0",
+    "ink": "^2.7.1",
+    "meow": "^6.1.0",
+    "prop-types": "^15.7.2",
+    "react": "^16.13.1"
+  },
+  "devDependencies": {
+    "@babel/preset-env": "^7.9.5",
+    "@babel/preset-react": "^7.9.4",
+    "@babel/register": "^7.9.0",
+    "babel-jest": "^25.3.0",
+    "chalk": "^4.0.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb": "^18.1.0",
+    "eslint-config-xo-react": "^0.23.0",
+    "eslint-plugin-import": "^2.20.2",
+    "eslint-plugin-jest": "^23.8.2",
+    "eslint-plugin-jsx-a11y": "^6.2.3",
+    "eslint-plugin-react": "^7.19.0",
+    "eslint-plugin-react-hooks": "^2.5.1",
+    "ink-testing-library": "^1.0.3",
+    "jest": "^25.3.0",
+    "xo": "^0.29.1"
+  },
+  "ava": {
+    "require": [
+      "@babel/register"
+    ]
+  },
+  "babel": {
+    "presets": [
+      "@babel/preset-react"
+    ]
+  },
+  "xo": {
+    "extends": "xo-react"
+  }
+}

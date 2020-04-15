@@ -1,0 +1,15 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`greet unknown user 1`] = `
+"
+                                           Hello, [32mStranger[39m
+                                                 >
+"
+`;
+
+exports[`greet user with a name 1`] = `
+"
+                                             Hello, [32mJane[39m
+                                                 >
+"
+`;
