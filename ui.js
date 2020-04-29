@@ -1,56 +1,79 @@
-
 const React = require('react');
-const { useState, useContext } = require('react');
+const { useState, useEffect } = require('react');
 const PropTypes = require('prop-types');
 const {
   AppContext, Box, Text, Color, useInput,
 } = require('ink');
 
-const App = ({ name }) => {
-  const { exit } = useContext(AppContext);
-  const [inputText, setInputText] = useState('');
-  const [commandList, setCommandList] = useState([]);
+const importJsx = require('import-jsx');
+const PlayerHistory = importJsx('./components/player-history');
 
-  useInput((input, key) => {
-    if (key.escape) {
-      setInputText('');
-    } else if (key.return) {
-      if (inputText === 'exit') {
-        exit();
-      } else if (inputText !== '') {
-        setCommandList([...commandList, inputText]);
-        setInputText('');
+
+const App = ({ name }) => {
+  const ROUND_TIME = 10;
+
+  const [playerIndex, setPlayerIndex] = useState(0);
+  const [time, setTime] = useState(ROUND_TIME);
+
+  const nextPlayer = () => {
+    const nextIndex = (playerIndex + 1) % playerList.length;
+    setPlayerIndex(nextIndex);
+  }
+
+  useEffect(() => {
+    const tick = () => {
+      if (time <= 0) {
+        setTime(ROUND_TIME);
+        nextPlayer();
+      } else {
+        setTime(time - 1);
       }
-    } else if (input.charCodeAt(0) === 127) {
-      setInputText(inputText.slice(0, inputText.length - 1));
-    } else {
-      setInputText(inputText + input);
+    };
+
+    const timer = setTimeout(tick, 1000);
+    return () => {
+      clearTimeout(timer);
     }
-  });
+  }, [playerIndex, time]);
+
+  const playerList = ['Matt', 'Amy'];
+
+  const handleChange = text => {
+    setInputText(text);
+  };
+
+  const handleSubmit = text => {
+    setCommandList([...commandList, text]);
+    setInputText('');
+  }
 
   return (
-    <Box flexDirection="column" alignItems="center" paddingTop={1} paddingBottom={1}>
-      <Text>
-        Hello,
-        {' '}
-        <Color green>{name}</Color>
-      </Text>
-      { commandList.map((command) => <Text key={command}>{ command }</Text>) }
-      <Text>
-        {'>'}
-        {' '}
-        {inputText}
-      </Text>
+    <Box
+      flexDirection='column'
+      alignItems='stretch'
+    >
+      <Box
+        paddingTop={1}
+        paddingBottom={1}
+        justifyContent='center'
+      >
+        <Text>Time remaining: <Color green={time > 5} red={time <= 5}>{time}</Color></Text>
+      </Box>
+      <Box
+        flexDirection="row"
+        justifyContent="space-around"
+        alignItems="flex-start"
+        paddingTop={1}
+        paddingBottom={1}
+      >
+        {
+          playerList.map((name, index) => 
+            <PlayerHistory key={`${name}${index}`} name={name} isActive={index === playerIndex && time !== 0} done={nextPlayer} />
+          )
+        }
+      </Box>
     </Box>
   );
-};
-
-App.propTypes = {
-  name: PropTypes.string,
-};
-
-App.defaultProps = {
-  name: 'Stranger',
 };
 
 module.exports = App;

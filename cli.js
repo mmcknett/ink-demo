@@ -13,10 +13,12 @@ const cli = meow(`
     $ ink-demo
 
   Options
-    --name  Your name
+    -r, --rounds <n>  Number of rounds
+    -t, --time <seconds>  Time for each round in seconds
+    -p, --players <n>  Number of players (1 or 2)
 
   Examples
-    $ ink-demo --name=Jane
+    $ ink-demo --players 2 --rounds 3 --time 30
     Hello, Jane
 `);
 
