@@ -17,7 +17,7 @@ const App = ({ name }) => {
     } else if (key.return) {
       if (inputText === 'exit') {
         exit();
-      } else if (inputText != '') {
+      } else if (inputText !== '') {
         setCommandList([...commandList, inputText]);
         setInputText('');
       }
