@@ -2,14 +2,22 @@
 
 exports[`greet unknown user 1`] = `
 "
-                                           Hello, [32mStranger[39m
-                                                 >
+                                          Time remaining:[32m10[39m
+
+
+                  [34mMatt[39m's guesses                                    [34mAmy[39m's guesses
+
+                  [7m [27m
 "
 `;
 
 exports[`greet user with a name 1`] = `
 "
-                                             Hello, [32mJane[39m
-                                                 >
+                                          Time remaining:[32m10[39m
+
+
+                  [34mMatt[39m's guesses                                    [34mAmy[39m's guesses
+
+                  [7m [27m
 "
 `;
