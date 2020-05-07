@@ -1,5 +1,5 @@
 const React = require('react');
-// const PropTypes = require('prop-types');
+const PropTypes = require('prop-types');
 
 const { useState, useEffect } = require('react');
 const {
@@ -11,16 +11,17 @@ const importJsx = require('import-jsx');
 const PlayerHistory = importJsx('./components/player-history');
 
 
-const App = () => {
+const App = (props) => {
   const ROUND_TIME = 10;
 
   const [playerIndex, setPlayerIndex] = useState(0);
   const [time, setTime] = useState(ROUND_TIME);
 
   const playerList = ['Matt', 'Amy'];
+  const numPlayers = props.players || props.p || playerList.length;
 
   const nextPlayer = () => {
-    const nextIndex = (playerIndex + 1) % playerList.length;
+    const nextIndex = (playerIndex + 1) % numPlayers;
     setPlayerIndex(nextIndex);
   };
 
@@ -39,15 +40,6 @@ const App = () => {
       clearTimeout(timer);
     };
   }, [playerIndex, time]);
-
-  // const handleChange = (text) => {
-  //   setInputText(text);
-  // };
-
-  // const handleSubmit = (text) => {
-  //   setCommandList([...commandList, text]);
-  //   setInputText('');
-  // };
 
   return (
     <Box
@@ -77,7 +69,7 @@ const App = () => {
               /* eslint-disable-next-line react/no-array-index-key */
               key={`${name}${index}`}
               name={name}
-              isActive={index === playerIndex && time !== 0}
+              isActive={index === playerIndex}
               done={nextPlayer}
             />
           ))
@@ -88,7 +80,12 @@ const App = () => {
 };
 
 App.propTypes = {
-  // name: PropTypes.string,
+  rounds: PropTypes.string,
+  r: PropTypes.string,
+  players: PropTypes.string,
+  p: PropTypes.string,
+  time: PropTypes.string,
+  t: PropTypes.string
 };
 
 module.exports = App;
