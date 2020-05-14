@@ -1,23 +1,5 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`greet unknown user 1`] = `
-"
-                                          Time remaining:[32m10[39m
+exports[`greet unknown user 1`] = `"Enter the name of player [32m1[39m: [7m [27m"`;
 
-
-                  [34mMatt[39m's guesses                                    [34mAmy[39m's guesses
-
-                  [7m [27m
-"
-`;
-
-exports[`greet user with a name 1`] = `
-"
-                                          Time remaining:[32m10[39m
-
-
-                  [34mMatt[39m's guesses                                    [34mAmy[39m's guesses
-
-                  [7m [27m
-"
-`;
+exports[`greet user with a name 1`] = `"Enter the name of player [32m1[39m: [7m [27m"`;
