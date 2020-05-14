@@ -3,89 +3,79 @@ const PropTypes = require('prop-types');
 
 const { useState, useEffect } = require('react');
 const {
-  Box, Text, Color,
+  Box, Text, Color, Static
 } = require('ink');
+const TextInput = require('ink-text-input').default;
 
 const importJsx = require('import-jsx');
 
-const PlayerHistory = importJsx('./components/player-history');
+const GameBoard = importJsx('./components/game-board');
 
 
 const App = (props) => {
-  const ROUND_TIME = 10;
+  const [playerList, setPlayerList] = useState([]);
+  const [playerInput, setPlayerInput] = useState('');
 
-  const [playerIndex, setPlayerIndex] = useState(0);
-  const [time, setTime] = useState(ROUND_TIME);
+  const numPlayers = props.players || props.p || 2;
+  const time = props.time || props.t || 30;
+  const rounds = props.rounds || props.r || 2;
 
-  const playerList = ['Matt', 'Amy'];
-  const numPlayers = props.players || props.p || playerList.length;
+  if (playerList.length < numPlayers) {
+    const handleSubmit = (input) => {
+      setPlayerInput('');
+      setPlayerList([ ...playerList, input ]);
+    }
+    const handleChange = (text) => {
+      setPlayerInput(text);
+    }
+    return (
+      <Box
+        width={ 60 }
+        alignSelf='center'
+        justifyContent='flex-start'
+      >
+        <Static>
+          {
+            playerList.map((player, index) =>
+              <Text key={ player }>Enter the name of player { index + 1 }: {player}</Text>)
+          }
+        </Static>
+        <Text>Enter the name of player <Color green>{ playerList.length + 1 }</Color>: </Text>
+        <TextInput value={ playerInput } onChange={ handleChange } onSubmit={ handleSubmit } />
+      </Box>
+    )
+  }
 
-  const nextPlayer = () => {
-    const nextIndex = (playerIndex + 1) % numPlayers;
-    setPlayerIndex(nextIndex);
-  };
-
-  useEffect(() => {
-    const tick = () => {
-      if (time <= 0) {
-        setTime(ROUND_TIME);
-        nextPlayer();
-      } else {
-        setTime(time - 1);
-      }
-    };
-
-    const timer = setTimeout(tick, 1000);
-    return () => {
-      clearTimeout(timer);
-    };
-  }, [playerIndex, time]);
+  let timeStopped = false;
+  const onGameOver = () => {
+    timeStopped = true;
+  }
 
   return (
-    <Box
-      flexDirection="column"
-      alignItems="stretch"
-    >
-      <Box
-        paddingTop={1}
-        paddingBottom={1}
-        justifyContent="center"
-      >
-        <Text>
-          Time remaining:
-          <Color green={time > 5} red={time <= 5}>{time}</Color>
+    <>
+      <Static>
+        <Text key={ playerList[playerList.length - 1] }>
+          Enter the name of player { playerList.length }: { playerList[playerList.length - 1] }
         </Text>
-      </Box>
-      <Box
-        flexDirection="row"
-        justifyContent="space-around"
-        alignItems="flex-start"
-        paddingTop={1}
-        paddingBottom={1}
-      >
-        {
-          playerList.map((name, index) => (
-            <PlayerHistory
-              /* eslint-disable-next-line react/no-array-index-key */
-              key={`${name}${index}`}
-              name={name}
-              isActive={index === playerIndex}
-              done={nextPlayer}
-            />
-          ))
-        }
-      </Box>
-    </Box>
+      </Static>
+      <GameBoard
+        playerList={ playerList }
+        rounds={ rounds }
+        roundTime={ time }
+        timeStopped={ timeStopped }
+        triggerGameOver={ onGameOver }
+      />
+    </>
   );
 };
 
 App.propTypes = {
-  rounds: PropTypes.string,
-  r: PropTypes.string,
-  players: PropTypes.string,
-  p: PropTypes.string,
-  time: PropTypes.string,
-  t: PropTypes.string
+  rounds: PropTypes.number,
+  r: PropTypes.number,
+  players: PropTypes.number,
+  p: PropTypes.number,
+  time: PropTypes.number,
+  t: PropTypes.number
 };
 
 module.exports = App;

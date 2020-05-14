@@ -5,7 +5,8 @@ const PropTypes = require('prop-types');
 const { Box, Text, Color } = require('ink');
 const TextInput = require('ink-text-input').default;
 
-function PlayerHistory({ name, isActive, done }) {
+function PlayerHistory(props) {
+  const { name, isActive, done } = props;
   const [inputText, setInputText] = useState('');
   const [commandList, setCommandList] = useState([]);
 
@@ -44,12 +45,11 @@ function PlayerHistory({ name, isActive, done }) {
 PlayerHistory.propTypes = {
   name: PropTypes.string,
   isActive: PropTypes.bool.isRequired,
-  done: PropTypes.function,
+  done: PropTypes.func,
 };
 
 PlayerHistory.defaultProps = {
-  name: 'Stranger',
-  done: () => {},
+  name: 'Stranger'
 };
 
 module.exports = PlayerHistory;
